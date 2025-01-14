@@ -1,29 +1,22 @@
 import string
 
 alphabet = string.ascii_lowercase
-print(alphabet)
+decrypted_message = ""
+ciphertext = "y qc q iushuj cuiiqwu oek mybb duluh wkuii"
+shift = 16
 
-password = "hi potato zzz"
-# eve wants to steal my password
+for letter in ciphertext:
+    if letter.isalpha():  # Only decrypt alphabetic characters
+        # Determine the ASCII base value (ord('a') or ord('A'))
+        meaning = ord('a') if letter.islower() else ord('A')
+        
+        # Perform the shift and wrap around bounds if needed
+        new_letter = (ord(letter) - meaning - shift) % 26 + meaning
+        
+        # Convert the ASCII value back to a character
+        decrypted_message += chr(new_letter)
+    else:
+        # Leave non-alphabetic characters unchanged (like punctuation)
+        decrypted_message += letter
 
-# make my password secret
-key = 4
-
-def encrypt(plaintext):
-    ciphertext = ""
-    for letter in plaintext:
-        old_position = alphabet.find(letter)
-        if old_position == -1:
-            ciphertext += " "
-        else:
-            new_position = old_position + key
-            new_position = new_position % len(alphabet)
-            new_letter = alphabet[new_position]
-            ciphertext += new_letter
-    return ciphertext
-
-print(encrypt(password))
-
-# Your task:
-# figure out what key I used to encrypt this message:
-secret_message = "y qc q iushuj cuiiqwu oek mybb duluh wkuii"
+print(decrypted_message)
